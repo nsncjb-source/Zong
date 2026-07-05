@@ -6,7 +6,7 @@
 <title>ZONG — Anti-Raid Defense for Discord</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
- 
+
   :root{
     --bg: #0B1220;
     --panel: #121B2E;
@@ -17,7 +17,7 @@
     --text: #E8EDF5;
     --muted: #8A96AC;
   }
- 
+
   *{ box-sizing:border-box; margin:0; padding:0; }
   html{ scroll-behavior:smooth; }
   body{
@@ -32,13 +32,13 @@
   a{ color:inherit; text-decoration:none; }
   img,svg{ display:block; }
   .wrap{ max-width:1120px; margin:0 auto; padding:0 24px; }
- 
+
   :focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
- 
+
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
   }
- 
+
   /* ---------- NAV ---------- */
   header{
     position:sticky; top:0; z-index:50;
@@ -54,17 +54,17 @@
   .nav-cta{ background:var(--amber); color:#1a1200; font-weight:600; padding:9px 18px; border-radius:6px; font-size:14px; }
   .nav-cta:hover{ filter:brightness(1.08); }
   .burger{ display:none; background:none; border:none; color:var(--text); font-size:22px; cursor:pointer; }
- 
+
   @media (max-width:760px){
     .nav-links{ display:none; }
     .burger{ display:block; }
   }
- 
+
   /* ---------- HERO ---------- */
   .hero{ padding:88px 0 64px; position:relative; overflow:hidden; }
   .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center; }
   @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
- 
+
   .eyebrow{
     display:inline-flex; align-items:center; gap:8px;
     font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em;
@@ -73,19 +73,19 @@
   }
   .eyebrow .pulse{ width:6px; height:6px; border-radius:50%; background:var(--amber); animation:pulse 1.6s infinite; }
   @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
- 
+
   .hero h1{ font-size:52px; font-weight:700; line-height:1.05; margin-bottom:20px; }
   .hero h1 span{ color:var(--amber); }
   .hero p.lead{ color:var(--muted); font-size:17px; max-width:480px; margin-bottom:32px; }
   @media (max-width:500px){ .hero h1{ font-size:38px; } }
- 
+
   .cta-row{ display:flex; gap:14px; flex-wrap:wrap; }
   .btn{ display:inline-flex; align-items:center; gap:8px; padding:13px 22px; border-radius:7px; font-weight:600; font-size:15px; cursor:pointer; border:none; }
   .btn-primary{ background:var(--amber); color:#1a1200; }
   .btn-primary:hover{ filter:brightness(1.08); }
   .btn-ghost{ background:transparent; border:1px solid var(--border); color:var(--text); }
   .btn-ghost:hover{ border-color:var(--muted); }
- 
+
   /* console signature element */
   .console{
     background:var(--panel); border:1px solid var(--border); border-radius:10px;
@@ -105,7 +105,7 @@
   .tag.detect{ background:rgba(245,166,35,0.15); color:var(--amber); }
   .tag.action{ background:rgba(47,191,113,0.15); color:var(--green); }
   @keyframes rise{ from{ transform:translateY(0); } to{ transform:translateY(-560px); } }
- 
+
   /* ---------- STATS ---------- */
   .stats{ border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--panel); }
   .stats-grid{ display:grid; grid-template-columns:repeat(3,1fr); }
@@ -115,14 +115,14 @@
   .stat .num{ font-family:'Space Grotesk',sans-serif; font-size:34px; font-weight:700; color:var(--amber); }
   .stat .label{ color:var(--muted); font-size:13px; margin-top:6px; }
   .stats-note{ text-align:center; color:var(--muted); font-size:12px; padding:14px 24px 0; font-family:'IBM Plex Mono',monospace; }
- 
+
   /* ---------- SECTIONS shared ---------- */
   section{ padding:88px 0; }
   .section-head{ max-width:560px; margin-bottom:48px; }
   .section-head .eyebrow{ margin-bottom:16px; }
   .section-head h2{ font-size:34px; margin-bottom:14px; }
   .section-head p{ color:var(--muted); font-size:16px; }
- 
+
   /* ---------- HOW IT WORKS ---------- */
   .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
   @media (max-width:800px){ .steps{ grid-template-columns:1fr; } }
@@ -130,7 +130,7 @@
   .step .num{ font-family:'IBM Plex Mono',monospace; color:var(--amber); font-size:13px; margin-bottom:14px; }
   .step h3{ font-size:19px; margin-bottom:10px; }
   .step p{ color:var(--muted); font-size:14.5px; }
- 
+
   /* ---------- FEATURES ---------- */
   .features{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
   @media (max-width:800px){ .features{ grid-template-columns:1fr 1fr; } }
@@ -139,7 +139,7 @@
   .feature h3{ font-size:16px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
   .feature h3::before{ content:"▸"; color:var(--amber); }
   .feature p{ color:var(--muted); font-size:13.5px; }
- 
+
   /* ---------- PRICING ---------- */
   .pricing-card{
     background:var(--panel); border:1px solid var(--border); border-radius:14px;
@@ -152,7 +152,7 @@
   .pricing-card li::before{ content:"✓"; color:var(--green); font-weight:700; }
   .pricing-note{ color:var(--muted); font-size:13px; margin-top:18px; line-height:1.6; }
   .pricing-note a{ color:var(--amber); border-bottom:1px solid rgba(245,166,35,0.4); }
- 
+
   /* ---------- VERIFY KEY ---------- */
   .verify-box{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:32px; max-width:560px; }
   .verify-box input{
@@ -165,7 +165,7 @@
   .verify-result.ok{ background:rgba(47,191,113,0.12); color:var(--green); border:1px solid rgba(47,191,113,0.3); }
   .verify-result.bad{ background:rgba(239,83,80,0.12); color:#ef8a86; border:1px solid rgba(239,83,80,0.3); }
   .verify-disclaimer{ color:var(--muted); font-size:12.5px; margin-top:16px; line-height:1.6; }
- 
+
   /* ---------- FAQ ---------- */
   .faq-item{ border-bottom:1px solid var(--border); padding:20px 0; }
   .faq-q{ display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:15.5px; }
@@ -173,7 +173,7 @@
   .faq-item.open .icon{ transform:rotate(45deg); }
   .faq-a{ max-height:0; overflow:hidden; transition:max-height 0.25s ease; color:var(--muted); font-size:14.5px; }
   .faq-item.open .faq-a{ max-height:200px; padding-top:12px; }
- 
+
   /* ---------- FOOTER ---------- */
   footer{ border-top:1px solid var(--border); padding:40px 0; }
   .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
@@ -184,7 +184,7 @@
 </style>
 </head>
 <body>
- 
+
 <header>
   <nav>
     <div class="logo"><span class="dot"></span> ZONG</div>
@@ -198,7 +198,7 @@
     <a href="#pricing" class="nav-cta">Get ZONG</a>
   </nav>
 </header>
- 
+
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
@@ -219,7 +219,7 @@
     </div>
   </div>
 </section>
- 
+
 <div class="stats">
   <div class="wrap">
     <div class="stats-grid">
@@ -230,7 +230,7 @@
     <div class="stats-note wrap">* Measured against test raids on our own servers. Your results will vary with Discord API latency and server permissions.</div>
   </div>
 </div>
- 
+
 <section id="how">
   <div class="wrap">
     <div class="section-head">
@@ -245,7 +245,7 @@
     </div>
   </div>
 </section>
- 
+
 <section id="features">
   <div class="wrap">
     <div class="section-head">
@@ -266,7 +266,7 @@
     </div>
   </div>
 </section>
- 
+
 <section id="pricing">
   <div class="wrap">
     <div class="section-head" style="margin-left:auto;margin-right:auto;text-align:center;">
@@ -292,7 +292,7 @@
     </div>
   </div>
 </section>
- 
+
 <section id="verify">
   <div class="wrap">
     <div class="section-head">
@@ -308,7 +308,7 @@
     </div>
   </div>
 </section>
- 
+
 <section id="faq">
   <div class="wrap">
     <div class="section-head">
@@ -335,7 +335,7 @@
     </div>
   </div>
 </section>
- 
+
 <footer>
   <div class="wrap">
     <div class="footer-row">
@@ -351,7 +351,7 @@
     <div class="footer-note">// audit-log monitoring active — armored servers protected 24/7</div>
   </div>
 </footer>
- 
+
 <script>
   // ---- signature console ticker ----
   const logTemplates = [
@@ -366,7 +366,7 @@
     {t:'00:19:30', tag:'detect', text:'RECENT_JOIN_SWEEP — 4 accounts flagged'},
     {t:'00:19:31', tag:'action', text:'SWEEP_COMPLETE — 4/4 removed'},
   ];
- 
+
   function buildConsole(){
     const body = document.getElementById('consoleBody');
     const doubled = [...logTemplates, ...logTemplates, ...logTemplates];
@@ -379,7 +379,7 @@
     `).join('');
   }
   buildConsole();
- 
+
   // ---- key format checker ----
   function checkKeyFormat(){
     const input = document.getElementById('keyInput').value.trim();
@@ -391,21 +391,20 @@
       result.textContent = '✓ Format matches a real ZONG key. This does not confirm it is unused — redeem it or ask an admin to check.';
     } else {
       result.className = 'verify-result show bad';
-      result.textContent = '✗ This does not match ZONG\\'s real key format (Zong-XXXXXX-XXXXXX). Treat it as unverified.';
+      result.textContent = "✗ This does not match ZONG's real key format (Zong-XXXXXX-XXXXXX). Treat it as unverified.";
     }
   }
- 
+
   // ---- faq accordion ----
   document.querySelectorAll('.faq-item').forEach(item => {
     item.querySelector('.faq-q').addEventListener('click', () => {
       item.classList.toggle('open');
     });
   });
- 
+
   // ---- placeholder links: edit these before publishing ----
- 
+
 </script>
- 
+
 </body>
 </html>
- 
