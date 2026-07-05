@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — ZONG</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  :root{
+    --bg:#0B1220; --panel:#121B2E; --border:#223353; --amber:#F5A623;
+    --green:#2FBF71; --text:#E8EDF5; --muted:#8A96AC;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  h1,h2,.display{ font-family:'Space Grotesk',sans-serif; letter-spacing:-0.02em; }
+  code,.mono{ font-family:'IBM Plex Mono',monospace; }
+  a{ color:var(--amber); }
+  .wrap{ max-width:760px; margin:0 auto; padding:64px 24px 100px; }
+  header{ border-bottom:1px solid var(--border); padding:18px 24px; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; max-width:1120px; margin:0 auto; }
+  .logo .dot{ width:8px; height:8px; border-radius:50%; background:var(--green); }
+  h1{ font-size:32px; margin-bottom:8px; }
+  .updated{ color:var(--muted); font-size:13px; font-family:'IBM Plex Mono',monospace; margin-bottom:40px; }
+  h2{ font-size:19px; margin:36px 0 12px; }
+  p, li{ color:#C7D0E0; font-size:15px; }
+  ul{ padding-left:20px; margin:12px 0; }
+  li{ margin-bottom:6px; }
+  .callout{ background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:18px 20px; margin:20px 0; font-size:14px; color:var(--muted); }
+  .placeholder{ background:rgba(245,166,35,0.1); border:1px solid rgba(245,166,35,0.3); color:var(--amber); padding:1px 6px; border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:13px; }
+</style>
+</head>
+<body>
+<header><div class="logo"><span class="dot"></span> ZONG</div></header>
+<div class="wrap">
+  <h1>Privacy Policy</h1>
+  <div class="updated">Last updated: <span class="placeholder">[DATE — fill in when you publish this]</span></div>
+
+  <p>This Privacy Policy explains what data ZONG ("the bot", "we", "us") collects when you use it in your Discord server, and how that data is handled.</p>
+
+  <h2>1. What ZONG collects</h2>
+  <p>To provide anti-raid protection, ZONG stores the following data, tied to your Discord server and/or Discord account ID:</p>
+  <ul>
+    <li><strong>Server configuration</strong> — whether the shield is armed, lock state, your chosen response action (kick/ban/quarantine), alert channel, trusted roles, and whitelist entries.</li>
+    <li><strong>Action logs</strong> — a record of raid-detection events and the actions ZONG took in response (e.g. "banned user X for mass channel deletion"), including Discord usernames and IDs involved.</li>
+    <li><strong>Backups</strong> — a snapshot of your server's channel names/structure and role names/permissions, used solely to restore your server if it's damaged by a raid.</li>
+    <li><strong>Premium account data</strong> — if you purchase premium, we store your Discord user ID, the key redeemed, and the redemption timestamp, so premium access persists across sessions.</li>
+    <li><strong>Signed agreements</strong> — if you use the <code>!sign</code> command, we store your Discord username, ID, a timestamp, and the agreement text you confirmed, kept as a record of that confirmation.</li>
+  </ul>
+
+  <h2>2. What ZONG does <em>not</em> collect</h2>
+  <ul>
+    <li>Message content is read only in real time to check for known raid-command patterns — it is not stored or logged unless it directly triggers a detection event.</li>
+    <li>ZONG does not track your online/offline presence status.</li>
+    <li>ZONG does not access or store direct messages.</li>
+    <li>ZONG does not collect payment information directly — purchases are handled externally (e.g. PayPal), and we only receive confirmation that a transaction occurred.</li>
+  </ul>
+
+  <h2>3. How data is stored</h2>
+  <p>Data is stored in files on the server that hosts ZONG. It persists across restarts but is only as secure as that hosting environment. We take reasonable steps to restrict access to this data, but as with any self-hosted service, no storage method is guaranteed to be perfectly secure.</p>
+
+  <h2>4. How data is used</h2>
+  <p>Data collected is used exclusively to operate ZONG's features described above: raid detection and response, server backup/restore, premium access, and record-keeping for purchases. We do not sell or share your data with third parties.</p>
+
+  <h2>5. Data retention & deletion</h2>
+  <p>Server configuration and logs are retained for as long as ZONG remains in your server. If you remove ZONG from your server, you may request deletion of your server's stored data by contacting us at <span class="placeholder">[YOUR CONTACT METHOD — e.g. Discord server or email]</span>.</p>
+
+  <h2>6. Your rights</h2>
+  <p>You may request a copy of the data ZONG holds about your account or server, or request its deletion, by contacting us using the method above. Note that premium redemption records may be retained as needed for legitimate transaction/dispute-resolution purposes even after a deletion request, consistent with standard business record-keeping practices.</p>
+
+  <h2>7. Changes to this policy</h2>
+  <p>We may update this policy from time to time. Continued use of ZONG after changes are posted constitutes acceptance of the updated policy.</p>
+
+  <h2>8. Contact</h2>
+  <p>Questions about this policy can be directed to <span class="placeholder">[YOUR CONTACT METHOD]</span>.</p>
+
+  <div class="callout">
+    ⚠️ This is a starting template, not legal advice. Replace the bracketed placeholders with your real details before publishing, and consider having it reviewed if you're relying on it for a real commercial product.
+  </div>
+</div>
+</body>
+</html>

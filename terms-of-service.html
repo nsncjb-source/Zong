@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — ZONG</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  :root{
+    --bg:#0B1220; --panel:#121B2E; --border:#223353; --amber:#F5A623;
+    --green:#2FBF71; --text:#E8EDF5; --muted:#8A96AC;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased; }
+  h1,h2,.display{ font-family:'Space Grotesk',sans-serif; letter-spacing:-0.02em; }
+  code,.mono{ font-family:'IBM Plex Mono',monospace; }
+  a{ color:var(--amber); }
+  .wrap{ max-width:760px; margin:0 auto; padding:64px 24px 100px; }
+  header{ border-bottom:1px solid var(--border); padding:18px 24px; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; max-width:1120px; margin:0 auto; }
+  .logo .dot{ width:8px; height:8px; border-radius:50%; background:var(--green); }
+  h1{ font-size:32px; margin-bottom:8px; }
+  .updated{ color:var(--muted); font-size:13px; font-family:'IBM Plex Mono',monospace; margin-bottom:40px; }
+  h2{ font-size:19px; margin:36px 0 12px; }
+  p, li{ color:#C7D0E0; font-size:15px; }
+  ul{ padding-left:20px; margin:12px 0; }
+  li{ margin-bottom:6px; }
+  .callout{ background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:18px 20px; margin:20px 0; font-size:14px; color:var(--muted); }
+  .placeholder{ background:rgba(245,166,35,0.1); border:1px solid rgba(245,166,35,0.3); color:var(--amber); padding:1px 6px; border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:13px; }
+</style>
+</head>
+<body>
+<header><div class="logo"><span class="dot"></span> ZONG</div></header>
+<div class="wrap">
+  <h1>Terms of Service</h1>
+  <div class="updated">Last updated: <span class="placeholder">[DATE — fill in when you publish this]</span></div>
+
+  <p>These Terms of Service ("Terms") govern your use of ZONG ("the bot", "we", "us"). By adding ZONG to your Discord server or using its commands, you agree to these Terms.</p>
+
+  <h2>1. What ZONG does</h2>
+  <p>ZONG is an anti-raid protection bot for Discord. It monitors server activity for raid-like behavior (mass channel deletions, mass bans, role tampering, and similar patterns) and can automatically kick, ban, or quarantine accounts responsible, restore server structure from backups, and provide related moderation tools.</p>
+
+  <h2>2. Permissions & responsibility</h2>
+  <p>ZONG requires elevated permissions (e.g. Kick Members, Ban Members, Manage Roles, Manage Channels, View Audit Log) to function. By granting these permissions, you acknowledge that:</p>
+  <ul>
+    <li>ZONG will take automated moderation actions (kicks, bans, role changes) without a human reviewing each one individually.</li>
+    <li>Automated detection can occasionally misidentify legitimate activity as a raid ("false positives"), despite reasonable safeguards (owner exemption, whitelist, trusted roles, and the <code>!undo</code> command).</li>
+    <li>You, as the server owner/admin, are responsible for configuring ZONG appropriately for your server (e.g. reviewing the default action, setting up trusted roles for other admins/bots).</li>
+  </ul>
+
+  <h2>3. No warranty</h2>
+  <p>ZONG is provided "as is," without warranty of any kind. We do not guarantee that ZONG will detect or prevent every possible raid, attack, or malicious action against your server. ZONG is a protective tool, not a guarantee of server safety.</p>
+
+  <h2>4. Limitation of liability</h2>
+  <p>To the fullest extent permitted by law, we are not liable for any damages arising from your use of ZONG, including but not limited to server damage, data loss, incorrectly banned/kicked members, or downtime, whether caused by ZONG's actions, inaction, or a third party's actions.</p>
+
+  <h2>5. Premium purchases</h2>
+  <ul>
+    <li>Premium access is tied to the purchasing Discord account and is not tied to a specific server — once redeemed, it applies wherever that account has the relevant permissions.</li>
+    <li>Premium keys are single-use and non-transferable. Reselling or redistributing keys is not permitted.</li>
+    <li>Refund requests are handled on a case-by-case basis; contact us at <span class="placeholder">[YOUR CONTACT METHOD]</span>. Using the <code>!sign</code> command before purchase creates a record of the agreed terms at time of sale, which may be referenced in a dispute.</li>
+    <li>We reserve the right to revoke premium access in cases of fraud, chargebacks, or abuse of the service.</li>
+  </ul>
+
+  <h2>6. Acceptable use</h2>
+  <p>You may not use ZONG to violate Discord's Terms of Service or Community Guidelines, to harass or harm others, or to circumvent Discord's own moderation and safety systems.</p>
+
+  <h2>7. Changes to the service</h2>
+  <p>We may modify, suspend, or discontinue ZONG (or any feature of it) at any time without notice.</p>
+
+  <h2>8. Changes to these Terms</h2>
+  <p>We may update these Terms from time to time. Continued use of ZONG after changes are posted constitutes acceptance of the updated Terms.</p>
+
+  <h2>9. Contact</h2>
+  <p>Questions about these Terms can be directed to <span class="placeholder">[YOUR CONTACT METHOD]</span>.</p>
+
+  <div class="callout">
+    ⚠️ This is a starting template, not legal advice. Replace the bracketed placeholders before publishing, and consider having it reviewed if you're relying on it for a real commercial product.
+  </div>
+</div>
+</body>
+</html>

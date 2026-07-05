@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZONG — Anti-Raid Defense for Discord</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg: #0B1220;
+    --panel: #121B2E;
+    --panel-raised: #17233A;
+    --border: #223353;
+    --amber: #F5A623;
+    --green: #2FBF71;
+    --text: #E8EDF5;
+    --muted: #8A96AC;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{ font-family:'Space Grotesk',sans-serif; letter-spacing:-0.02em; }
+  code, .mono{ font-family:'IBM Plex Mono',monospace; }
+  a{ color:inherit; text-decoration:none; }
+  img,svg{ display:block; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 24px; }
+
+  :focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,18,32,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav{ display:flex; align-items:center; justify-content:space-between; padding:18px 24px; max-width:1120px; margin:0 auto; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px; }
+  .logo .dot{ width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 10px var(--green); }
+  .nav-links{ display:flex; gap:32px; font-size:14px; color:var(--muted); }
+  .nav-links a:hover{ color:var(--text); }
+  .nav-cta{ background:var(--amber); color:#1a1200; font-weight:600; padding:9px 18px; border-radius:6px; font-size:14px; }
+  .nav-cta:hover{ filter:brightness(1.08); }
+  .burger{ display:none; background:none; border:none; color:var(--text); font-size:22px; cursor:pointer; }
+
+  @media (max-width:760px){
+    .nav-links{ display:none; }
+    .burger{ display:block; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding:88px 0 64px; position:relative; overflow:hidden; }
+  .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center; }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em;
+    color:var(--amber); border:1px solid rgba(245,166,35,0.35); background:rgba(245,166,35,0.08);
+    padding:6px 12px; border-radius:100px; margin-bottom:22px;
+  }
+  .eyebrow .pulse{ width:6px; height:6px; border-radius:50%; background:var(--amber); animation:pulse 1.6s infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
+
+  .hero h1{ font-size:52px; font-weight:700; line-height:1.05; margin-bottom:20px; }
+  .hero h1 span{ color:var(--amber); }
+  .hero p.lead{ color:var(--muted); font-size:17px; max-width:480px; margin-bottom:32px; }
+  @media (max-width:500px){ .hero h1{ font-size:38px; } }
+
+  .cta-row{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{ display:inline-flex; align-items:center; gap:8px; padding:13px 22px; border-radius:7px; font-weight:600; font-size:15px; cursor:pointer; border:none; }
+  .btn-primary{ background:var(--amber); color:#1a1200; }
+  .btn-primary:hover{ filter:brightness(1.08); }
+  .btn-ghost{ background:transparent; border:1px solid var(--border); color:var(--text); }
+  .btn-ghost:hover{ border-color:var(--muted); }
+
+  /* console signature element */
+  .console{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    overflow:hidden; box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .console-bar{ display:flex; align-items:center; gap:8px; padding:12px 16px; border-bottom:1px solid var(--border); background:var(--panel-raised); }
+  .console-bar span{ width:10px; height:10px; border-radius:50%; background:#3a4867; }
+  .console-title{ margin-left:8px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); }
+  .console-body{ height:280px; padding:16px; overflow:hidden; position:relative; font-family:'IBM Plex Mono',monospace; font-size:12.5px; }
+  .console-body::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(to bottom, transparent 70%, var(--panel) 100%);
+  }
+  .log-line{ display:flex; gap:10px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.03); color:var(--muted); animation:rise 8s linear infinite; }
+  .log-line .t{ color:#54607c; flex-shrink:0; }
+  .log-line .tag{ flex-shrink:0; padding:1px 6px; border-radius:4px; font-size:11px; }
+  .tag.detect{ background:rgba(245,166,35,0.15); color:var(--amber); }
+  .tag.action{ background:rgba(47,191,113,0.15); color:var(--green); }
+  @keyframes rise{ from{ transform:translateY(0); } to{ transform:translateY(-560px); } }
+
+  /* ---------- STATS ---------- */
+  .stats{ border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--panel); }
+  .stats-grid{ display:grid; grid-template-columns:repeat(3,1fr); }
+  @media (max-width:700px){ .stats-grid{ grid-template-columns:1fr; } }
+  .stat{ padding:36px 24px; text-align:center; border-right:1px solid var(--border); }
+  .stat:last-child{ border-right:none; }
+  .stat .num{ font-family:'Space Grotesk',sans-serif; font-size:34px; font-weight:700; color:var(--amber); }
+  .stat .label{ color:var(--muted); font-size:13px; margin-top:6px; }
+  .stats-note{ text-align:center; color:var(--muted); font-size:12px; padding:14px 24px 0; font-family:'IBM Plex Mono',monospace; }
+
+  /* ---------- SECTIONS shared ---------- */
+  section{ padding:88px 0; }
+  .section-head{ max-width:560px; margin-bottom:48px; }
+  .section-head .eyebrow{ margin-bottom:16px; }
+  .section-head h2{ font-size:34px; margin-bottom:14px; }
+  .section-head p{ color:var(--muted); font-size:16px; }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:800px){ .steps{ grid-template-columns:1fr; } }
+  .step{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:28px; position:relative; }
+  .step .num{ font-family:'IBM Plex Mono',monospace; color:var(--amber); font-size:13px; margin-bottom:14px; }
+  .step h3{ font-size:19px; margin-bottom:10px; }
+  .step p{ color:var(--muted); font-size:14.5px; }
+
+  /* ---------- FEATURES ---------- */
+  .features{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  @media (max-width:800px){ .features{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:520px){ .features{ grid-template-columns:1fr; } }
+  .feature{ background:var(--panel); padding:26px; }
+  .feature h3{ font-size:16px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .feature h3::before{ content:"▸"; color:var(--amber); }
+  .feature p{ color:var(--muted); font-size:13.5px; }
+
+  /* ---------- PRICING ---------- */
+  .pricing-card{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    padding:40px; max-width:480px; margin:0 auto; text-align:center;
+  }
+  .pricing-card .price{ font-family:'Space Grotesk',sans-serif; font-size:48px; font-weight:700; margin:18px 0 6px; }
+  .pricing-card .price span{ font-size:16px; color:var(--muted); font-weight:500; }
+  .pricing-card ul{ list-style:none; text-align:left; margin:28px 0; }
+  .pricing-card li{ display:flex; gap:10px; padding:9px 0; color:var(--text); font-size:14.5px; }
+  .pricing-card li::before{ content:"✓"; color:var(--green); font-weight:700; }
+  .pricing-note{ color:var(--muted); font-size:13px; margin-top:18px; line-height:1.6; }
+  .pricing-note a{ color:var(--amber); border-bottom:1px solid rgba(245,166,35,0.4); }
+
+  /* ---------- VERIFY KEY ---------- */
+  .verify-box{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:32px; max-width:560px; }
+  .verify-box input{
+    width:100%; padding:12px 14px; background:var(--bg); border:1px solid var(--border); border-radius:7px;
+    color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:14px; margin-bottom:14px;
+  }
+  .verify-box input:focus{ border-color:var(--amber); }
+  .verify-result{ padding:12px 14px; border-radius:7px; font-size:13.5px; font-family:'IBM Plex Mono',monospace; display:none; }
+  .verify-result.show{ display:block; }
+  .verify-result.ok{ background:rgba(47,191,113,0.12); color:var(--green); border:1px solid rgba(47,191,113,0.3); }
+  .verify-result.bad{ background:rgba(239,83,80,0.12); color:#ef8a86; border:1px solid rgba(239,83,80,0.3); }
+  .verify-disclaimer{ color:var(--muted); font-size:12.5px; margin-top:16px; line-height:1.6; }
+
+  /* ---------- FAQ ---------- */
+  .faq-item{ border-bottom:1px solid var(--border); padding:20px 0; }
+  .faq-q{ display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:15.5px; }
+  .faq-q .icon{ color:var(--amber); font-family:'IBM Plex Mono',monospace; transition:transform 0.2s; }
+  .faq-item.open .icon{ transform:rotate(45deg); }
+  .faq-a{ max-height:0; overflow:hidden; transition:max-height 0.25s ease; color:var(--muted); font-size:14.5px; }
+  .faq-item.open .faq-a{ max-height:200px; padding-top:12px; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ border-top:1px solid var(--border); padding:40px 0; }
+  .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .footer-row .logo{ font-size:16px; }
+  .footer-links{ display:flex; gap:24px; font-size:13.5px; color:var(--muted); }
+  .footer-links a:hover{ color:var(--text); }
+  .footer-note{ color:#54607c; font-size:12px; margin-top:20px; font-family:'IBM Plex Mono',monospace; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo"><span class="dot"></span> ZONG</div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#verify">Verify a key</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#pricing" class="nav-cta">Get ZONG</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="pulse"></span> ARMORED — AUDIT LOG STREAM LIVE</div>
+      <h1>Raids get shut down <span>before they finish</span>.</h1>
+      <p class="lead">ZONG watches your server's audit log in real time — mass channel deletions, mass bans, role tampering — and responds automatically, before an admin even sees the alert.</p>
+      <div class="cta-row">
+        <a href="#pricing" class="btn btn-primary">Get Premium</a>
+        <a href="#how" class="btn btn-ghost">See how it works</a>
+      </div>
+    </div>
+    <div class="console">
+      <div class="console-bar">
+        <span></span><span></span><span></span>
+        <div class="console-title">zong — incident log</div>
+      </div>
+      <div class="console-body" id="consoleBody"></div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat"><div class="num">&lt;1s</div><div class="label">detection-to-response time, own testing</div></div>
+      <div class="stat"><div class="num">3</div><div class="label">response modes — kick, ban, quarantine</div></div>
+      <div class="stat"><div class="num">24/7</div><div class="label">audit-log monitoring while armored</div></div>
+    </div>
+    <div class="stats-note wrap">* Measured against test raids on our own servers. Your results will vary with Discord API latency and server permissions.</div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">HOW IT WORKS</div>
+      <h2>Detect, verify, respond</h2>
+      <p>No polling, no delay loop — ZONG reacts to the same audit-log event Discord itself generates the instant something happens.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">01 / DETECT</div><h3>Pattern recognition</h3><p>Mass channel deletions, mass bans, or role/permission stripping within a short window trips the detector — the real signature of a nuke, not a guess.</p></div>
+      <div class="step"><div class="num">02 / VERIFY</div><h3>Exemption check</h3><p>Whitelisted members, trusted roles, and the server owner are never auto-punished — false positives are checked out before any action is taken.</p></div>
+      <div class="step"><div class="num">03 / RESPOND</div><h3>Automatic action</h3><p>Kick, ban, or quarantine — whichever you've configured — fires immediately, with a live alert to your chosen channel.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">CAPABILITIES</div>
+      <h2>Built for when it actually matters</h2>
+      <p>Every feature below exists because a raid needs it — not filler.</p>
+    </div>
+    <div class="features">
+      <div class="feature"><h3>Real-time detection</h3><p>Audit-log driven — channel deletions, mass bans, and role tampering are all monitored continuously.</p></div>
+      <div class="feature"><h3>Configurable response</h3><p>Choose kick, ban, or quarantine as your default action, and override per-command when you need to.</p></div>
+      <div class="feature"><h3>Trusted roles & whitelist</h3><p>Exempt co-owners, other bots, or specific people from ever being auto-punished.</p></div>
+      <div class="feature"><h3>Undo safety net</h3><p>Reverse ZONG's last automated actions if something gets flagged that shouldn't have been.</p></div>
+      <div class="feature"><h3>Backup & restore</h3><p>Snapshot your channels and roles, and rebuild anything that gets deleted with one command.</p></div>
+      <div class="feature"><h3>One-button recovery</h3><p><code>!recover</code> unlocks, restores from backup, and alerts your team in a single step.</p></div>
+      <div class="feature"><h3>Raid sweeps</h3><p>Manually sweep recently-joined suspicious accounts by join window and role count.</p></div>
+      <div class="feature"><h3>Live alert channel</h3><p>Every automated action posts straight to a channel you choose.</p></div>
+      <div class="feature"><h3>Exportable audit trail</h3><p>Full log history, downloadable — not just the last 10 lines.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <div class="eyebrow" style="margin-left:auto;margin-right:auto;">PREMIUM</div>
+      <h2>One key. Every server you admin.</h2>
+      <p style="margin-left:auto;margin-right:auto;">Redeem once, unlocked wherever you have admin permissions.</p>
+    </div>
+    <div class="pricing-card">
+      <div class="mono" style="color:var(--muted);font-size:13px;">ZONG PREMIUM</div>
+      <div class="price">$9<span> one-time</span></div>
+      <ul>
+        <li>Automated raid detection & response</li>
+        <li>Configurable action mode + trusted roles</li>
+        <li>Backup, restore, and one-button recovery</li>
+        <li>Raid sweeps & undo safety net</li>
+        <li>Full exportable audit log</li>
+      </ul>
+      <a href="https://paypal.me/zongdev/9" class="btn btn-primary" style="width:100%;justify-content:center;" id="paypalBtn" target="_blank" rel="noopener">Pay with PayPal</a>
+      <p class="pricing-note">
+        Before paying: run <code>!sign</code> in the ZONG server to record a signed agreement — this protects both of us if there's ever a dispute.<br><br>
+        After payment, you'll receive a key in the format <code>Zong-XXXXXX-XXXXXX</code>. Redeem it with <code>!premium &lt;key&gt;</code>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="verify">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">TRUST & SAFETY</div>
+      <h2>Verify a key before you buy</h2>
+      <p>Keys are only ever sold directly through us. If you've seen one for sale elsewhere, check the format here first.</p>
+    </div>
+    <div class="verify-box">
+      <input type="text" id="keyInput" placeholder="Zong-XXXXXX-XXXXXX" class="mono">
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="checkKeyFormat()">Check format</button>
+      <div id="verifyResult" class="verify-result"></div>
+      <p class="verify-disclaimer">This only checks whether a key matches ZONG's real format — it does <strong>not</strong> confirm the key is unused or actually valid. A correctly-formatted key can still be fake. To confirm a key is real and unredeemed, ask a server admin to run <code>!keyinfo &lt;key&gt;</code>, or redeem it yourself with <code>!premium &lt;key&gt;</code> and see if it works.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">FAQ</div>
+      <h2>Questions</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">What permissions does ZONG need? <span class="icon">+</span></div>
+        <div class="faq-a">Administrator is recommended so it can lock channels, manage roles, and ban/kick during a detected raid — the same permissions any real anti-raid bot needs to actually act.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Does premium work on multiple servers? <span class="icon">+</span></div>
+        <div class="faq-a">Yes — premium is tied to your Discord account, not one server. Redeem once, and it's active anywhere you have admin permissions.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What if I get a false positive? <span class="icon">+</span></div>
+        <div class="faq-a">Use <code>!undo</code> to reverse ZONG's most recent automated actions, and add trusted accounts to your whitelist or trusted roles so they're never flagged again.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I get a refund? <span class="icon">+</span></div>
+        <div class="faq-a">Contact us directly through the server. Your signed agreement from <code>!sign</code> and your key's redemption record help us sort out any dispute quickly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <div class="logo"><span class="dot"></span> ZONG</div>
+      <div class="footer-links">
+        <a href="#pricing">Get Premium</a>
+        <a href="#faq">FAQ</a>
+        <a href="#" id="discordLink">Join the Discord</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms-of-service.html">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-note">// audit-log monitoring active — armored servers protected 24/7</div>
+  </div>
+</footer>
+
+<script>
+  // ---- signature console ticker ----
+  const logTemplates = [
+    {t:'00:00:01', tag:'detect', text:'CHANNEL_DELETE_DETECTED — actor flagged'},
+    {t:'00:00:01', tag:'action', text:'RAID_RESPONSE — banned in 0.9s'},
+    {t:'00:04:12', tag:'detect', text:'MASS_BAN_PATTERN — 3 bans / 10s'},
+    {t:'00:04:13', tag:'action', text:'RAID_RESPONSE — quarantined'},
+    {t:'00:09:47', tag:'detect', text:'ROLE_PERMISSION_EDIT — flagged'},
+    {t:'00:09:48', tag:'action', text:'RAID_RESPONSE — kicked'},
+    {t:'00:14:02', tag:'detect', text:'SILENCE_PATTERN — command intercepted'},
+    {t:'00:14:02', tag:'action', text:'MESSAGE_DELETED — before send'},
+    {t:'00:19:30', tag:'detect', text:'RECENT_JOIN_SWEEP — 4 accounts flagged'},
+    {t:'00:19:31', tag:'action', text:'SWEEP_COMPLETE — 4/4 removed'},
+  ];
+
+  function buildConsole(){
+    const body = document.getElementById('consoleBody');
+    const doubled = [...logTemplates, ...logTemplates, ...logTemplates];
+    body.innerHTML = doubled.map((l,i) => `
+      <div class="log-line" style="animation-delay:-${i*0.8}s">
+        <span class="t">${l.t}</span>
+        <span class="tag ${l.tag}">${l.tag.toUpperCase()}</span>
+        <span>${l.text}</span>
+      </div>
+    `).join('');
+  }
+  buildConsole();
+
+  // ---- key format checker ----
+  function checkKeyFormat(){
+    const input = document.getElementById('keyInput').value.trim();
+    const result = document.getElementById('verifyResult');
+    const pattern = /^Zong-[A-Z0-9]{6}-[A-Z0-9]{6}$/;
+    result.classList.add('show');
+    if(pattern.test(input)){
+      result.className = 'verify-result show ok';
+      result.textContent = '✓ Format matches a real ZONG key. This does not confirm it is unused — redeem it or ask an admin to check.';
+    } else {
+      result.className = 'verify-result show bad';
+      result.textContent = '✗ This does not match ZONG\\'s real key format (Zong-XXXXXX-XXXXXX). Treat it as unverified.';
+    }
+  }
+
+  // ---- faq accordion ----
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      item.classList.toggle('open');
+    });
+  });
+
+  // ---- placeholder links: edit these before publishing ----
+  document.getElementById('discordLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('Replace this with your real Discord invite link before publishing.');
+  });
+</script>
+
+</body>
+</html>
